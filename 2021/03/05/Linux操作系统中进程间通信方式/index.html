@@ -20,16 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="wzx0599">
-<meta property="og:url" content="http://example.com/tags/C/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Linux操作系统中进程间通信方式">
+<meta property="og:url" content="http://example.com/2021/03/05/Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%AD%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/index.html">
 <meta property="og:site_name" content="wzx0599">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-05T07:32:57.000Z">
+<meta property="article:modified_time" content="2021-03-05T08:31:47.367Z">
 <meta property="article:author" content="wzx0599">
-<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/tags/C/">
+<link rel="canonical" href="http://example.com/2021/03/05/Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%AD%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/">
 
 
 <script id="page-configurations">
@@ -37,12 +40,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: C++ | wzx0599</title>
+  <title>Linux操作系统中进程间通信方式 | wzx0599</title>
   
 
 
@@ -160,71 +163,103 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">C++
-          <small>标签</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/05/Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%AD%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wzx0599">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wzx0599">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux操作系统中进程间通信方式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-05 15:32:57 / 修改时间：16:31:47" itemprop="dateCreated datePublished" datetime="2021-03-05T15:32:57+08:00">2021-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-03-05T09:08:50+08:00"
-              content="2021-03-05">
-          03-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/03/05/C-%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%A0%86%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" itemprop="url">
-            <span itemprop="name">C++实现的堆排序算法</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-01-22T13:45:22+08:00"
-              content="2021-01-22">
-          01-22
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/01/22/C-%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E4%B8%8E%E6%8C%87%E9%92%88/" itemprop="url">
-            <span itemprop="name">C++中的引用与指针</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
+        <h2 id="简介">简介</h2>
+<p>进程间通信(InterProcess Communication, IPC)就是指在不同的进程之间进行信息的交换。 在Linux系统中，常用的IPC方式有：管道，消息队列，信号量，信号，共享内存，套接字等。</p>
+<h2 id="管道pipe">管道(pipe)</h2>
+<p>管道又可以分为有名管道和无名管道。但是总的来说，管道是一种半双工的通信方式，数据只能在管 道中单向流动，而且只能在具有亲缘关系的进程之间使用。这里进程之间的亲缘关系通常值得是父子进程关系。</p>
+<h3 id="无名管道pipe">无名管道(pipe)</h3>
+<h3 id="高级管道popen">高级管道(popen)</h3>
+<h3 id="有名管道named-pipe">有名管道(named pipe)</h3>
+<h2 id="消息队列message-queue">消息队列(message queue)</h2>
+<h2 id="信号量semaphore">信号量(semaphore)</h2>
+<h2 id="信号signal">信号(signal)</h2>
+<h2 id="共享内存shared-memory">共享内存(shared memory)</h2>
+<h2 id="套接字socket">套接字(Socket)</h2>
+<p>套接字方式实现的进程间通信相对上面所述的其他方式最大的优势就是：可以进行不同主机之间的进程通信。</p>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag"># 操作系统</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/05/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-%E6%8F%92%E5%80%BC%E4%B8%8E%E6%8B%9F%E5%90%88%E6%A8%A1%E5%9E%8B/" rel="prev" title="数学建模-插值与拟合模型">
+      <i class="fa fa-chevron-left"></i> 数学建模-插值与拟合模型
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
@@ -277,6 +312,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%A1%E9%81%93pipe"><span class="nav-number">2.</span> <span class="nav-text">管道(pipe)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E5%90%8D%E7%AE%A1%E9%81%93pipe"><span class="nav-number">2.1.</span> <span class="nav-text">无名管道(pipe)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E7%AE%A1%E9%81%93popen"><span class="nav-number">2.2.</span> <span class="nav-text">高级管道(popen)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E5%90%8D%E7%AE%A1%E9%81%93named-pipe"><span class="nav-number">2.3.</span> <span class="nav-text">有名管道(named pipe)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97message-queue"><span class="nav-number">3.</span> <span class="nav-text">消息队列(message queue)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8Fsemaphore"><span class="nav-number">4.</span> <span class="nav-text">信号量(semaphore)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7signal"><span class="nav-number">5.</span> <span class="nav-text">信号(signal)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98shared-memory"><span class="nav-number">6.</span> <span class="nav-text">共享内存(shared memory)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A5%97%E6%8E%A5%E5%AD%97socket"><span class="nav-number">7.</span> <span class="nav-text">套接字(Socket)</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -396,6 +432,59 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
