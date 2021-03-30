@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络(数据链路层)">
+<meta property="og:url" content="http://example.com/2021/03/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/index.html">
+<meta property="og:site_name" content="wzx0599">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210227163810.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210227192331.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210227193405.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210228193052.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210228194847.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210228195750.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210228200307.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301165030.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301170049.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301170256.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301170807.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301171031.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301171133.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301171244.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301185313.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301185704.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301190316.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301191056.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301191158.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301193038.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301204350.png">
+<meta property="article:published_time" content="2021-03-29T15:03:20.000Z">
+<meta property="article:modified_time" content="2021-03-30T04:56:06.871Z">
+<meta property="article:author" content="wzx0599">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210227163810.png">
+
+<link rel="canonical" href="http://example.com/2021/03/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计算机网络(数据链路层) | wzx0599</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">wzx0599</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wzx0599">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wzx0599">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计算机网络(数据链路层)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-29 23:03:20" itemprop="dateCreated datePublished" datetime="2021-03-29T23:03:20+08:00">2021-03-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-30 12:56:06" itemprop="dateModified" datetime="2021-03-30T12:56:06+08:00">2021-03-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="简介">简介</h2>
+<p><strong>链路</strong>就是从一个节点到相邻节点的一段物理线路，而中间没有任何其他的交换节点。</p>
+<p><strong>数据链路</strong>是指把实现通信协议的硬件和软件加到链路上，就构成了数据链路。</p>
+<p>数据链路层以<strong>帧</strong>为单位传输和处理数据。</p>
+<p>使用点对点信道的数据链路层的三个重要问题：封装成帧，差错检测，可靠传输。</p>
+<p>使用广播信道的数据链路层的其他重要问题：编址，媒体接入控制。</p>
+<p><strong>封装成帧</strong></p>
+<p>封装成帧，是指数据链路层为上层交付的协议数据单元添加帧头和帧尾，使之成为帧。</p>
+<ul>
+<li><p>帧头和帧尾中包含重要的控制信息。</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210227163810.png" align="left" /></p></li>
+<li><p>帧头和帧尾的作用之一就是<strong>帧定界</strong>，有了帧头和帧尾接收方的数据链路层就可以将接收到的数据流切割为数据帧，需要注意的是，不是每种数据链路层协议的帧都包含有帧定界标志。PPP帧中就在帧头和帧尾处各有一个大小为1字节的标志，而在以太网V2的MAC帧中没有相关帧定界标志。对于以太网V2的MAC帧，在物理层中会在其前部添加8字节的前导码，前导码前7个字节为前同步码，用于同步时钟；最后一个字节为帧开始定界符，表明后面紧跟着的就是MAC帧。此外，以太网还规定了帧间间隔为96比特时间的发送间隔(帧间间隔还有其他作用)。</p></li>
+</ul>
+<p>透明传输，是指<strong>数据链路层对上层交付的传输数据没有任何限制</strong>，就好像数据链路层不存在一样。</p>
+<ul>
+<li>面向字节的物理链路使用字节填充(或称字符填充)的方法实现透明传输。</li>
+<li>面向比特的物理链路使用比特填充的方法实现透明传输。</li>
+</ul>
+<p>为了提高帧的传输效率，应当使帧的数据部分的长度尽可能大些。从数据链路层来看，帧的数据部分是实际需要传输的内容，而帧头和帧尾是为了实现数据链路层功能而额外添加的。</p>
+<p>考虑到差错控制等多种因素，每种数据链路层协议都规定了帧的数据部分长度的上限，即<strong>最大传送单元MTU(Maximum Transfer Unit)</strong>。</p>
+<p><strong>差错检测</strong></p>
+<p>实际的通信链路都不是理想的，比特在传输过程中可能会产生差错：1可能会变成0，0也可能变成1。这称为<strong>比特差错</strong>。</p>
+<p>在一段时间内，传输错误的比特所占传输比特总数的比率称为<strong>误码率BER(Bit Error Rate)</strong>。</p>
+<p>使用<strong>差错检测码</strong>来检测数据在传输过程中是否产生了比特差错，是数据链路层所要解决的重要问题之一。</p>
+<p><em>奇偶校验</em></p>
+<ul>
+<li>在待发送的数据后面添加1位奇偶校验位，使整个数据(包括所添加的校验位在内)中“1”的个数位奇数(奇校验)或偶数(偶校验)。</li>
+<li>如果有奇数个位发生误码，则奇偶性发生变化，可以检查出误码；</li>
+<li>如果有偶数个位发生误码，则奇偶性不发生变化，不能检查出误码(漏检)。</li>
+</ul>
+<p><em>循环冗余校验CRC</em>(<em>Cyclic Redundancy Check</em>)</p>
+<ul>
+<li>收发双方约定好一个生成多项式<span class="math inline">\(G(x)\)</span>；</li>
+<li>发送方基于待发送的数据和生成多项式计算出差错检测码(冗余码，冗余码的长度和生成多项式的最高次数相同)，将其添加到待传输数据的后面一起传输；</li>
+<li>接收方通过生成多项式来计算收到的数据是否产生了误码。</li>
+</ul>
+<p>检错码只能检测出帧在传输过程中出现了差错，但是并不能定位错误，因此无法纠正错误。</p>
+<p>要想纠正传输中的错误，可以使用冗余信息更多的纠错码进行前向纠错。但纠错码的开销比较大，在计算机网络中较少使用。</p>
+<p>循环冗余校验CRC有很好的检错能力(漏检率非常低)，虽然计算比较复杂，但非常易于用硬件实现，因此被广泛应用于数据链路层。</p>
+<p>在计算机网络中通常采用我们后续课程中将要讨论的检错重传方式来纠正传输中的差错，或者仅仅是丢弃检测到差错的帧，这取决于数据链路层向其上层提供的是可靠传输服务还是不可靠传输服务。</p>
+<h2 id="可靠传输的基本概念">可靠传输的基本概念</h2>
+<p>一般情况下，有线链路的误码率比较低，为了减小开销，并不要求数据链路层向上提供可靠传输服务。即使出现了误码，可靠传输的问题由其上层处理。</p>
+<p>无线链路易受干扰，误码率比较高，因此要求数据链路层必须向上层提供可靠传输服务。</p>
+<ul>
+<li>比特差错只是传输差错中的一种；</li>
+<li>从整个计算机网路体系结构来看，传输差错还包括分组丢失、分组失序和分组重复。(此处，分组即帧)</li>
+<li>分组丢失、分组失序以及分组重复这些传输差错，一般不会出现在数据链路层，而会出现在其上层。</li>
+<li>可靠传输服务并不仅局限于数据链路层，其他各层均可选择实现可靠传输。</li>
+<li>可靠传输的实现比较复杂，开销也比较大，是否使用可靠传输取决于应用需求。</li>
+</ul>
+<h2 id="可靠传输实现机制停止-等待协议sw">可靠传输实现机制：停止-等待协议SW</h2>
+<p>这三种可靠传输实现机制的基本原理并不仅局限于数据链路层，也可以应用到计算机网络体系结构的各层协议中。</p>
+<p>手段：确认与否认，超时重传，确认丢失，确认迟到</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210227192331.png"/></p>
+<ul>
+<li>接收端检测到数据分组有误码时，将其丢弃并等待发送方的超时重传。但对于误码率较高的点对点链路，为使发送方尽早重传，也可给发送方发送NAK分组。</li>
+<li>为了让接收方能够判断所收到的数据分组是否是重复的，需要给数据分组进行编号。由于停止-等待协议的停等特性，只需要1个比特编号就够了，即编号0和1。</li>
+<li>为了让发送方能够判断所收到的ACK分组是否是重复的，需要给ACK分组编号，所用比特数量与数据分组编号所用比特数量一样。数据链路层一般不会出现ACK分组迟到的情况，因此在数据链路层实现停止-等待协议可以不用给ACK分组编号。</li>
+<li>超时计时器设置的重传时间应仔细选择。一般可将重传时间选为略大于“从发送方到接收方的平均往返时间”。在数据链路层点对点的往返时间比较确定，重传时间比较好设定；然而在运输层，由于端到端往返时间非常不确定，设置合适的重传时间有时并不容易。</li>
+</ul>
+<p><em>停止-等待协议的信道利用率</em></p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210227193405.png"/></p>
+<ul>
+<li><span class="math inline">\(T_D\)</span>：数据分组发送耗时；</li>
+<li><span class="math inline">\(RTT\)</span>：收发双方信道时延；</li>
+<li><span class="math inline">\(T_A\)</span>：确认分组发送耗时。</li>
+</ul>
+<p>当往返时延RTT远大于数据帧发送实验TD时，信道的利用率非常低，若出现重传，则对于传送有用的数据信息来说，信道利用率还要降低。</p>
+<p>ARQ自动请求重传。</p>
+<h2 id="可靠传输实现机制回退n帧协议gbn">可靠传输实现机制：回退N帧协议GBN</h2>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210228193052.png"/></p>
+<p>回退N帧协议在流水线传输的基础上利用发送窗口来限制发送方连续发送数据分组的数量，是一种连续ARQ协议。</p>
+<p>在协议的工作过程中发送窗口和接收窗口不断向前滑动，因此这类协议又称为滑动窗口协议。</p>
+<p>由于回退N帧协议的特性，当通信线路质量不好时，其信道利用率并不比停止-等待协议高。</p>
+<h2 id="可靠传输实现机制选择重传协议sr">可靠传输实现机制：选择重传协议SR</h2>
+<p>为了进一步提高性能，可设法只重传出现误码的数据分组。因此，接收窗口的尺寸<span class="math inline">\(W_R\)</span>不应再等于1(而应大于1)，以便接收方先收下失序到达但无误码并且序号落在接受窗口内的那些数据分组，等到所缺分组收齐后再一并送交上层。这就是选择重传协议。需要注意的是，选择重传协议为了使发送方仅重传出现差错的分组，接收方不能再采用累积确认，而需要对每个正确接收到的数据分组进行逐一确认。</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210228194847.png"/></p>
+<h2 id="点对点协议ppp">点对点协议PPP</h2>
+<p>点对点协议PPP是目前使用最广泛的点对点数据链路层协议。</p>
+<p>PPP协议为在点对点链路传输各种协议数据包提供了一个标准方法，主要由以下三个部分构成：</p>
+<ul>
+<li>对各种协议数据报的封装方法(封装方法)；</li>
+<li>链路控制协议LCP，用于建立、配置以及测试数据链路的连接；</li>
+<li>一套网络控制协议NCPs，其中每个协议支持不同的网络层协议。</li>
+</ul>
+<p><em>帧格式</em></p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210228195750.png"/></p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210228200307.png"/></p>
+<h2 id="媒体接入控制的基本概念">媒体接入控制的基本概念</h2>
+<p>共享信道要着重考虑的一个问题就是如何协调多个发送和接收站点对一个共享传输媒体的占用，即媒体接入控制MAC(Medium Access Control)。</p>
+<ul>
+<li><p>静态划分信道</p>
+<ul>
+<li>频分多址</li>
+<li>时分多址</li>
+<li>码分多址</li>
+</ul>
+<p>预先固定分配好信道，这类方法非常不灵活，对于突发性数据传输信道利用率会很低。</p>
+<p>通常在无线网络的物理层中使用，而不是在数据链路层中使用。</p></li>
+<li><p>动态介入控制</p>
+<ul>
+<li>受控接入(淘汰)
+<ul>
+<li>集中控制：有一个主战以循环方式轮询每个站点有无数据发送，只有被轮询到的站点才能发送数据。最大缺点就是存在单点故障问题。</li>
+<li>分散控制：各站点是平等的，并连接成一个环形网络。令牌(一个特殊的控制帧)沿环逐站传递，接收到令牌的站点才有权发送数据，并在发送完数据后将令牌传递给下一个站点。</li>
+</ul></li>
+<li>随机接入：所有站点通过竞争，随机地在信道上发送数据。如果恰巧有两个或更过的站点在同一时刻发送数据，则信号在共享媒体上就要发生碰撞(即发生了冲突)。是的这些站点的发送都失败。因此，这类协议要解决的关键问题是如何尽量避免冲突及在发生冲突后如何尽快恢复通信。著名的共享式以太网采用的就是随机接入。</li>
+</ul></li>
+</ul>
+<p>随着技术的发展，交换技术的成熟和成本降低，具有更高性能的使用点对点链路和链路层交换机的交换式局域网在有线领域已完全取代了共享式局域网，但由于无线信道的广播天性，无线局域网仍然使用的是共享媒体技术。</p>
+<h2 id="媒体接入控制静态划分信道">媒体接入控制：静态划分信道</h2>
+<p>信道复用：复用是通信技术中的一个重要概念。复用就是通过一条物理线路同时传输多路用户的信号。当网络中传输媒体的传输容量大于多条单一信道传输的总通信量时，可利用复用技术在一条物理线路上建立多条通信信道来充分利用传输媒体的带宽。</p>
+<p>常用的信道复用技术：频分复用FDM，时分复用TDM，波分复用WDM，码分复用CDM。</p>
+<ul>
+<li>频分复用FDM：所有用户同时占用不同的频带资源并行通信。</li>
+<li>时分复用TDM：所有用户在不同的时间占用同样的频带宽度。</li>
+<li>波分复用WDM：</li>
+<li>码分复用CDM：每个用户可以在同样的时间使用同样的频带进行通信。</li>
+</ul>
+<p>复用与多址：</p>
+<ul>
+<li>复用是将单一媒体的频带资源划分成很多子信道，这些子信道之间相互独立，互不干扰。从媒体的整体频带资源上看，每个子信道只占用该媒体频带资源的一部分。</li>
+<li>多址处理的是动态分配信道给用户。这在用户仅仅暂时性地占用信道的应用中是必须的，而所有的移动通信系统基本上都属于这种情况。相反，在信道永久性地分配给用户的应用中，多址是不需要的。</li>
+<li>某种程度上，FDMA，TDMA，CDMA可以分别看作是FDM，TDM，CDM的用用。</li>
+</ul>
+<p>CDMA：</p>
+<p>在CDMA中，每个比特时间再划分为m各短的时间间隔，成为码片(Clip)。通常m的值是64或128。</p>
+<p>使用CDMA的每一个站被指派一个唯一的m比特码片序列。</p>
+<ul>
+<li>一个站如果要发送比特1，则发送它自己的m比特码片序列；</li>
+<li>一个站如果要发送比特0，则发送它自己的m比特码片序列的二进制反码；</li>
+</ul>
+<p>码片序列的挑选原则如下：</p>
+<ul>
+<li><p>分配给每个站的码片序列必须各不相同，实际常采用伪随机码序列。</p></li>
+<li><p>分配给每个站的码片序列必须相互正交(规格化内积为0)。</p>
+<p>令向量S表示站S的码片序列，令向量T表示其他任何站的码片序列。</p>
+<p>两个不同站S和T的码片序列正交，就是向量S和T的规格化内积为0: <span class="math display">\[
+S \cdot T = 0 \quad S \cdot \bar{T} = 0 \quad S \cdot S = 1 \quad S \cdot \bar{S} = -1
+\]</span></p></li>
+</ul>
+<h2 id="媒体接入控制动态接入控制随机接入">媒体接入控制：动态接入控制：随机接入</h2>
+<p>载波监听多址接入/碰撞检测 CSMA/CD：</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301165030.png"/></p>
+<p>强化碰撞：</p>
+<p>以太网还采用一种叫做<strong>强化碰撞</strong>的措施。这就是当发送帧的站点一旦检测到碰撞，除了立即停止发送帧外，还要继续发送32比热或者48比特的人为干扰信号，以便有足够多的碰撞信号使所有站点都能检测到碰撞。</p>
+<p>争用期：</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301170049.png"/></p>
+<p>最小帧长：</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301170256.png"/></p>
+<p>最大帧长：MTU+帧控制字长度</p>
+<p>截断二进制指数退避算法：</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301170807.png"/></p>
+<p>信道利用率：</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301171031.png"/></p>
+<p>帧发送流程图：</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301171133.png"/></p>
+<p>帧接收流程图：</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301171244.png"/></p>
+<p>CSMA/CD协议曾经用于各种总线结构以太网和双绞线以太网的早期版本中。现在的以太网基于交换机和全双工连接，不会有碰撞，因此没有必要使用CSMA/CD协议。</p>
+<p>载波监听多址接入/碰撞避免 CSMA/CA：</p>
+<p>在无线局域网中，不能使用碰撞检测CD，原因如下：</p>
+<ul>
+<li>由于无线信道的传输条件特殊，其信号强度的动态范围非常大，无线网卡接收到的信号强度往往会远小于发送信号的强度(可能相差百万倍)。如果要在无线网卡上实现碰撞检测CD，对硬件的要求非常高。</li>
+<li>即使能够在硬件上实现无线局域网的碰撞检测功能，但由于无线电波传播的特殊性(存在隐蔽站问题)，进行碰撞检测的意义也不大。</li>
+</ul>
+<p>802.11无线局域网使用CSMA/CA协议，在CSMA的基础上添加了一个碰撞避免CA功能，而不再实现碰撞检测功能。</p>
+<p>由于不可能避免所有的碰撞，并且无线信道误码率较高，802.11标准还使用了数据链路层确认机制(SW协议)来保证数据被正确接收。</p>
+<p>802.11的MAC层标准定义了两种不同的媒体接入控制方式：</p>
+<ul>
+<li>分布式协调功能DCF。在DCF方式下，没有中心控制站点，每个站点使用CSMA/CA协议通过争用信道来获取发送权，这是802.11定义的默认方式。</li>
+<li>点协调功能PCF。PCF方式使用集中控制的接入算法(一般在接入点AP实现集中控制)，是802.11定义的可选方式，在实际中较少使用。</li>
+</ul>
+<p>帧间间隔IFS(InterFrame Space):</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301185313.png"/></p>
+<p>CSMA/CA协议的工作原理：</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301185704.png"/></p>
+<p>CSMA/CA协议的退避算法：</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301190316.png"/></p>
+<p>CSMA/CA协议的信道预约和虚拟载波监听：</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301191056.png"/></p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301191158.png"/></p>
+<h2 id="mac地址ip地址和arp协议">MAC地址、IP地址和ARP协议</h2>
+<p>MAC地址是以太网的MAC子层所使用的地址；IP地址是TCP/IP体系结构中网络层所使用的地址；ARP协议属于TCP/IP体系结构的网络层，其作用是已知设备所分配到的IP地址，使用ARP协议可以通过该IP地址获取到设备的MAC地址。</p>
+<h2 id="mac地址">MAC地址</h2>
+<ul>
+<li>当多个主机连接在同一个广播信道上，要想实现两个主机之间的通信，则每个主机都必须有一个唯一的标识，即一个数据链路层地址；</li>
+<li>在每个主机发送的帧中必须携带标识发送主机和接收主机的地址。由于这类地址适用于媒体接入控制MAC，因此这类地址被称为MAC地址；
+<ul>
+<li>MAC地址一般被固化在网卡(网络适配器)的电可擦可编程只读存储器EEPROM中，因此MAC地址也被称为硬件地址；</li>
+<li>MAC地址有时也被称为物理地址。但是请注意，这并不意味着MAC地址属于网络体系结构中的物理层。</li>
+</ul></li>
+<li>一般情况下，用户主机会包含两个网络适配器：有线网卡和无线网卡。每个网络适配器都有一个全球唯一的MAC地址。而交换机和路由器往往拥有更多的网络接口，所以会拥有更多的MAC地址。综上所述，严格来说，MAC地址是对网络上各接口的唯一标识，而不是对网络上各设备的唯一标识。</li>
+</ul>
+<p>IEEE 802局域网的MAC地址格式</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301193038.png"/></p>
+<p>由48个比特组成，共6个字节，前三个字节表示机构，后三个表示网络接口。</p>
+<p>MAC地址第一字节的b0位表示：1-多播地址，0-单播地址；第一字节的b1位表示：1-本地管理，0-全球管理。</p>
+<h2 id="ip地址">IP地址</h2>
+<p>IP地址属于网络层的范畴。IP地址是因特网上的主机和路由器所使用的地址，用于标识两部分信息：</p>
+<ul>
+<li>网络编号：标识因特网上数以百万计的网络；</li>
+<li>主机编号：标识同一网络上不同主机(或路由器接口)。</li>
+</ul>
+<p>很显然，MAC地址是不具备区分不同网络的功能。</p>
+<ul>
+<li>如果只是一个单独的网络，不接入因特网，可以只使用MAC地址。</li>
+<li>如果主机所在的网络接入因特网，则IP地址和MAC地址都需要使用。</li>
+</ul>
+<p>数据包在转发过程中IP地址和MAC地址的变化情况：</p>
+<ul>
+<li>源IP地址和目的IP地址保持不变；</li>
+<li>源MAC地址和目的MAC地址逐个链路(或逐个网络)改变。</li>
+</ul>
+<h2 id="arp协议">ARP协议</h2>
+<p>通过IP地址找到对应的MAC地址。</p>
+<ul>
+<li>源主机在自己的ARP高速缓存表中查找目的主机的IP地址对应的MAC地址，若找到了，则可以封装MAC帧进行发送；若找不到，则发送ARP请求(封装在广播MAC帧中)；</li>
+<li>目的主机收到ARP请求后，将源主机的IP地址与MAC地址记录到自己的ARP高速缓存表中，然后给源主机发送ARP响应(封装在单播MAC帧中)，ARP响应中包含有目的主机的IP地址和MAC地址；</li>
+<li>源主机收到ARP响应后，将目的主机的IP地址与MAC地址记录到自己的ARP高速缓存表中，然后就可以封装之前想要发送的MAC帧并发送给目的主机；</li>
+<li>ARP的作用范围：逐段链路或者逐个网络使用；</li>
+<li>除ARP请求和响应外，ARP还有其他类型的报文(例如用于检查IP地址冲突的&quot;无故ARP、免费ARP&quot;)；</li>
+<li>ARP没有安全验证机制，存在ARP欺骗(攻击)问题。</li>
+</ul>
+<h2 id="集线器与交换机的区别">集线器与交换机的区别</h2>
+<p>总线型以太网</p>
+<p>使用双绞线和集线器HUB的星型以太网</p>
+<ul>
+<li>使用集线器的以太网在逻辑上仍是一个总线网，各站共享总线资源，使用的还是CSMA/CD协议；</li>
+<li>集线器只工作在物理层，它的每个接口仅简单地转发比特，不进行碰撞检测(由各站的网卡检测)；</li>
+<li>集线器一般都有少量的容错能力和网络管理功能。</li>
+</ul>
+<p>使用集线器HUB在物理层扩展以太网</p>
+<p>以太网交换机</p>
+<ul>
+<li>以太网交换机通常都有多个接口。每个接口都可以直接与一台主机或另一个以太网交换机相连。一般都工作在全双工方式。</li>
+<li>以太网交换机具有并行性，能同时连接多对接口，使多对主机能同时通信，无碰撞(不使用CSMA/CD协议)。</li>
+<li>以太网交换机一般都具有多种速率的接口，例如：10Mb/s、100Mb/s、1Gb/s、10Gb/s接口的多种组合。</li>
+<li>以太网交换机工作在数据链路层(也包括物理层)，它收到帧后，在帧交换表中查找帧的目的MAC地址对应的接口号，然后通过该接口转发帧。</li>
+<li>以太网交换机是一种即插即用设备，其内部的帧交换表是通过自学习算法自动地逐渐建立起来的。</li>
+<li>帧的两种转发方式：
+<ul>
+<li>存储转发；</li>
+<li>直接交换：采用基于硬件的交叉矩阵(交换时延非常小，但不检查帧是否有差错)。</li>
+</ul></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210301204350.png"/></p>
+<h2 id="以太网交换机自学习和转发帧的流程">以太网交换机自学习和转发帧的流程</h2>
+<p>ToDo</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%89%A9%E7%90%86%E5%B1%82/" rel="prev" title="计算机网络(物理层)">
+      <i class="fa fa-chevron-left"></i> 计算机网络(物理层)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/" rel="next" title="计算机网络(网络层)">
+      计算机网络(网络层) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">可靠传输的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6%E5%81%9C%E6%AD%A2-%E7%AD%89%E5%BE%85%E5%8D%8F%E8%AE%AEsw"><span class="nav-number">3.</span> <span class="nav-text">可靠传输实现机制：停止-等待协议SW</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6%E5%9B%9E%E9%80%80n%E5%B8%A7%E5%8D%8F%E8%AE%AEgbn"><span class="nav-number">4.</span> <span class="nav-text">可靠传输实现机制：回退N帧协议GBN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6%E9%80%89%E6%8B%A9%E9%87%8D%E4%BC%A0%E5%8D%8F%E8%AE%AEsr"><span class="nav-number">5.</span> <span class="nav-text">可靠传输实现机制：选择重传协议SR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%B9%E5%AF%B9%E7%82%B9%E5%8D%8F%E8%AE%AEppp"><span class="nav-number">6.</span> <span class="nav-text">点对点协议PPP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AA%92%E4%BD%93%E6%8E%A5%E5%85%A5%E6%8E%A7%E5%88%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">7.</span> <span class="nav-text">媒体接入控制的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AA%92%E4%BD%93%E6%8E%A5%E5%85%A5%E6%8E%A7%E5%88%B6%E9%9D%99%E6%80%81%E5%88%92%E5%88%86%E4%BF%A1%E9%81%93"><span class="nav-number">8.</span> <span class="nav-text">媒体接入控制：静态划分信道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AA%92%E4%BD%93%E6%8E%A5%E5%85%A5%E6%8E%A7%E5%88%B6%E5%8A%A8%E6%80%81%E6%8E%A5%E5%85%A5%E6%8E%A7%E5%88%B6%E9%9A%8F%E6%9C%BA%E6%8E%A5%E5%85%A5"><span class="nav-number">9.</span> <span class="nav-text">媒体接入控制：动态接入控制：随机接入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mac%E5%9C%B0%E5%9D%80ip%E5%9C%B0%E5%9D%80%E5%92%8Carp%E5%8D%8F%E8%AE%AE"><span class="nav-number">10.</span> <span class="nav-text">MAC地址、IP地址和ARP协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mac%E5%9C%B0%E5%9D%80"><span class="nav-number">11.</span> <span class="nav-text">MAC地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ip%E5%9C%B0%E5%9D%80"><span class="nav-number">12.</span> <span class="nav-text">IP地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#arp%E5%8D%8F%E8%AE%AE"><span class="nav-number">13.</span> <span class="nav-text">ARP协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BA%BF%E5%99%A8%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">14.</span> <span class="nav-text">集线器与交换机的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA%E8%87%AA%E5%AD%A6%E4%B9%A0%E5%92%8C%E8%BD%AC%E5%8F%91%E5%B8%A7%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">15.</span> <span class="nav-text">以太网交换机自学习和转发帧的流程</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">wzx0599</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wzx0599" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wzx0599" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wzx0599</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='120,120,120' opacity='0.5' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

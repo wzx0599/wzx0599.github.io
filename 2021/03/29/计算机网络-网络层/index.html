@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络(网络层)">
+<meta property="og:url" content="http://example.com/2021/03/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/index.html">
+<meta property="og:site_name" content="wzx0599">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210302205823.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210302213521.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210308164618.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210309194335.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210309201557.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210309210247.png">
+<meta property="article:published_time" content="2021-03-29T15:03:29.000Z">
+<meta property="article:modified_time" content="2021-03-30T05:02:07.711Z">
+<meta property="article:author" content="wzx0599">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wzx0599/picgo/master/20210302205823.png">
+
+<link rel="canonical" href="http://example.com/2021/03/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计算机网络(网络层) | wzx0599</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">wzx0599</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wzx0599">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wzx0599">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计算机网络(网络层)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-29 23:03:29" itemprop="dateCreated datePublished" datetime="2021-03-29T23:03:29+08:00">2021-03-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-30 13:02:07" itemprop="dateModified" datetime="2021-03-30T13:02:07+08:00">2021-03-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="简介">简介</h2>
+<p>网络层的主要任务是实现网络互联，进而实现数据包在各网络之间的传输。</p>
+<p>要实现网络层任务，需要解决以下主要问题：</p>
+<ul>
+<li>网络层向运输层提供怎样的服务(&quot;可靠传输&quot;还是&quot;不可靠传输&quot;)</li>
+<li>网络层寻址问题</li>
+<li>路由选择问题</li>
+</ul>
+<h2 id="网络层概述">网络层概述</h2>
+<p>因特网是目前全世界用户数量最多的互联网，使用的是TCP/IP协议栈。</p>
+<p>由于TCP/IP协议栈的网络层使用网际协议IP，它是整个协议栈的核心协议，因此在TCP/IP协议栈中网络层常称为网际层。</p>
+<h2 id="网络层提供的两种服务">网络层提供的两种服务</h2>
+<p>面向连接的虚电路服务：</p>
+<ul>
+<li>可靠通信由网络来保证；</li>
+<li>必须建立网络层的连接——虚电路VC(Virtual Circuit)；</li>
+<li>通信双方沿着已建立的虚电路发送分组；</li>
+<li>目的主机的地址仅在连接建立阶段使用，之后每个分组首部只需携带一条虚电路编号(构成虚电路的每一段链路都有一个虚电路编号)；</li>
+<li>这种通信方式如果再使用可靠传输的网络协议，就可使所发送的分组最终正确到达接收方(无差错按序到达，不丢失，不重复)；</li>
+<li>通信结束后，需要释放之前所建立的虚电路；</li>
+<li>很多广域分组交换网都使用面向连接的虚电路服务。</li>
+</ul>
+<p>无连接的数据报服务：</p>
+<ul>
+<li>可靠通信应当由用户主机来保证；</li>
+<li>不需要建立网络层连接；</li>
+<li>每个分组可走不同的路径；</li>
+<li>每个分组的首部必须携带目的主机的完整地址；</li>
+<li>这种通信方式所传送的分组可能误码，丢失，重复和失序；</li>
+<li>由于网络本身不提供端到端的可靠传输服务，这就使网络中的路由器可以做的比较简单，而且价格低廉；</li>
+<li>因特网采用了这种设计思想，也就是将复杂的网络处理功能置于因特网的边缘(用户主机和其内部的运输层)，而将相对简单的尽最大努力的分组交付功能置于因特网核心。</li>
+</ul>
+<p>TCP/IP体系结构的因特网提供的是简单灵活、无连接的、尽最大努力交付的数据报服务。</p>
+<h2 id="ipv4地址描述">IPv4地址描述</h2>
+<p>网络地址，可分配的主机地址，广播地址</p>
+<ul>
+<li>IPv4地址就是因特网上的每一台主机(或路由器)的每一个接口分配一个在全世界范围内是唯一的32比特的标识符。</li>
+<li>IPv4地址的编址方法经历了如下三个历史阶段：分类编址，划分子网，无分类编址。</li>
+<li>32比特的IPv4地址不方便阅读、记录以及输入等，因此IPv4地址采用<strong>点分十进制表示方法</strong>以方便用户使用。</li>
+</ul>
+<h3 id="分类编址的ipv4地址">分类编址的IPv4地址</h3>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210302205823.png"/></p>
+<h3 id="划分子网的ipv4地址">划分子网的IPv4地址</h3>
+<p>32比特的子网掩码可以表明分类IP地址的主机号部分被借用了几个比特作为子网号。</p>
+<ul>
+<li>子网掩码使用连续的比特1来对应网络号和子网号；</li>
+<li>子网掩码使用连续的比特0来对应主机号；</li>
+<li>将划分子网的IPv4地址与其响应的子网掩码进行逻辑与运算就可得到IPv4地址所在子网的网络地址。</li>
+</ul>
+<p>默认子网掩码是指在未划分子网的情况下使用的子网掩码。</p>
+<ul>
+<li>A类地址：255.0.0.0</li>
+<li>B类地址：255.255.0.0</li>
+<li>C类地址：255.255.255.0</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210302213521.png"/></p>
+<h3 id="无分类编址的ipv4地址">无分类编址的IPv4地址</h3>
+<p>划分子网在一定程度上缓解了因特网在发展中遇到的困难，但是数量巨大的C类网因为其地址空间太小并没有得到充分使用，而因特网的IP地址仍在加速消耗，整个IPv4地址空间面临全部耗尽的威胁。</p>
+<p>为此，因特网工程任务组IFTF又提出了采用无分类编址的方法来解决IP地址紧张的问题，同时还专门成立IPv6工作组负责新版本IP以彻底解决IP地址耗尽问题。</p>
+<p>1993年，IFTF发布了无分类域间路由选择CIDR的RFC文档。</p>
+<ul>
+<li>CIDR消除了传统的A类、B类和C类地址，以及划分子网的概念；</li>
+<li>CIDR可以更加有效地分配IPv4的地址空间，并且可以在新的IPv6使用之前允许因特网的规模继续增长。</li>
+</ul>
+<p>CIDR使用“斜线记法”，或称CIDR记法。即在IPv4地址后面加上斜线“/”，在斜线后面写上网络前缀所占用的比特数量。</p>
+<p>CIDR实际上是将网络前缀都相同的连续的IP地址组成一个“CIDR地址块”。</p>
+<p>只需要知道CIDR地址块中任何一个地址，就可以知道该地址块的全部细节：</p>
+<ul>
+<li>地址块的最小地址；</li>
+<li>地址块的最大地址；</li>
+<li>地址块中的地址数量；</li>
+<li>地址块聚合某类网络(A类、B类或C类)的数量；</li>
+<li>地址掩码(也可以称为子网掩码)。</li>
+</ul>
+<p>路由聚合(构造超网)：</p>
+<p>网络前缀越长，地址块越小，路由越具体；若路由器查表转发分组时发现有多条路由可选，则选择网络前缀最长的那条，这称为最长前缀匹配，因为这样的路由更具体。</p>
+<h2 id="ipv4地址的应用规划">IPv4地址的应用规划</h2>
+<p>定长的子网掩码FLSM(Fixed Length Subnet Mask)</p>
+<ul>
+<li>使用同一个子网掩码来划分子网</li>
+<li>每个子网所分配的IP地址数量相同，造成IP地址的浪费</li>
+<li>子网划分方式不灵活：只能划分出<span class="math inline">\(2^n\)</span>个子网(n是从主机号部分借用的来作为子网号的比特数量)</li>
+</ul>
+<p>变长的子网掩码VLSM(Variable Length Subnet Mask)</p>
+<ul>
+<li>使用不同的子网掩码来划分子网</li>
+<li>每个子网所分配的IP地址数量可以不同，尽可能减少对IP地址的浪费</li>
+<li>子网划分方式灵活：可按需分配</li>
+</ul>
+<h2 id="ip数据报的发送和转发过程">IP数据报的发送和转发过程</h2>
+<p>IP数据报的发送和转发过程包含以下两个部分：</p>
+<ul>
+<li>主机发送IP数据报；</li>
+<li>路由器转发IP数据报。</li>
+</ul>
+<p>(忽略使用ARP协议来获取目的主机或路由器接口的MAC地址的过成以及以太网交换机自学习和转发帧的过程)。</p>
+<p>主机发送IP数据报</p>
+<p>判断目的主机是否与自己在同一个网络，若在同一个网络，则属于直接交付；若不在同一个网络，则属于间接交付，传输给主机所在网络的默认网关，由网关帮忙转发。</p>
+<p>路由器收到IP数据报后如何转发？</p>
+<ul>
+<li>检查IP数据报首部是否出错：若出错，则直接丢弃该IP数据报并通告源主机；若没有出错则进行转发。</li>
+<li>根据IP数据报的目的地址在路由表中查找匹配的条目：若找找到匹配的条目，则转发给条目指示的下一跳；若找不到，则丢弃该IP数据报并通告源主机。</li>
+</ul>
+<p>中继器和集线器工作在物理层，既不隔离冲突域也不隔离广播域。</p>
+<p>网桥和交换机工作在数据链路层，可以隔离冲突域不隔离广播域</p>
+<p>路由器工作在网络层，既隔离冲突域也隔离广播域。</p>
+<h2 id="静态路由配置及其可能产生的路由环路问题">静态路由配置及其可能产生的路由环路问题</h2>
+<p>静态路由配置是指用户或网络管理员使用路由器的相关命令给路由器人工配置路由表。</p>
+<ul>
+<li>这种人工配置方式简单、开销小。但是不能及时使用网络状态的变化(流量、拓扑等)。</li>
+<li>一般只在小规模网络中采用。</li>
+</ul>
+<p>使用静态路由配置可能出现以下导致产生路由环路的错误：</p>
+<ul>
+<li>配置错误；</li>
+<li>聚合了不存在的网络；</li>
+<li>网络故障。</li>
+</ul>
+<p>路由条目的类型：</p>
+<ul>
+<li>直连网络；</li>
+<li>静态路由(人工配置)；</li>
+<li>动态路由(路由选择协议)。</li>
+</ul>
+<p>默认路由：目的网络为0.0.0.0，地址掩码为0.0.0.0。</p>
+<p>特定主机路由：目的网络为特定主机的IP地址，地址掩码为255.255.255.255。</p>
+<p>防止静态路由配置错误而产生路由环路问题：在IP数据报的首部设有生存时间TTL字段。</p>
+<p>聚合了不存在的网络而产生路由环路问题：将不存在的网路转发至路由黑洞。</p>
+<p>网络故障产生路由环路问题：将故障网络转发至路由黑洞。</p>
+<h2 id="路由选择协议">路由选择协议</h2>
+<ul>
+<li>静态路由选择：由人工配置的网络路由、默认路由、特定主机路由、黑洞路由等都属于静态路由；这种人工配置方式简单，开销小，但不能及时适应网络状态的变化(流量、拓扑等)；一般只用在小规模网络中采用。</li>
+<li>动态路由选择：路由器通过路由选择协议自动获取路由信息；比较复杂、开销比较大，能较好的适应网络状态的变化；适用于大规模网络。</li>
+</ul>
+<p>因特网所采用的路由选择协议的主要特点：</p>
+<ul>
+<li>自适应：动态路由选择，能较好的适应网络状态的变化</li>
+<li>分布式：路由之间交换路由信息</li>
+<li>分层次：将整个因特网划分为许多较小的自治系统AS(Autonomous System)</li>
+</ul>
+<p>因特网采用<strong>分层次</strong>的路由选择协议</p>
+<ul>
+<li>域间路由选择：外部网关协议EGP</li>
+<li>域内路由选择：内部网关协议IGP</li>
+</ul>
+<p>常见的路由选择协议：</p>
+<ul>
+<li>外部网关协议EGP：
+<ul>
+<li>边界网关协议BGP</li>
+</ul></li>
+<li>内部网关协议IGP：
+<ul>
+<li>路由信息协议RIP：基于距离向量</li>
+<li>内部网关路由协议IGRP：基于距离向量</li>
+<li>增强型内部网关路由协议EIGRP：基于距离向量</li>
+<li>开放式最短路径优先OSPF：基于链路状态</li>
+<li>中间系统到中间系统IS-IS：基于链路状态</li>
+</ul></li>
+</ul>
+<p>路由器的基本结构</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210308164618.png"/></p>
+<h3 id="路由信息协议rip的基本工作原理">路由信息协议RIP的基本工作原理</h3>
+<p>路由信息协议RIP是内部网关协议IGP中最先得到广泛使用的协议之一。</p>
+<p>RIP要求自治系统AS内的每一个路由器都要维护从它自己到AS内其他每一个网络的距离记录。这是一组距离，称为“距离向量D-V”。</p>
+<p>RIP使用跳数(Hop Count)作为度量，来衡量到达目的网路的距离。</p>
+<ul>
+<li>路由器到直连网络的距离定义为1；</li>
+<li>路由器到非直连网络的距离定义为所经过的路由器数量加1。</li>
+<li>允许一条路径最多只能包含15个路由器。“距离”等于16时相当于不可达。因此，RIP只适用于小型互联网。</li>
+</ul>
+<p>RIP认为好的路由就是“距离短”的路由，也就是所通过路由器数量最少的路由。</p>
+<p>当到达同一目的网络有多条“距离相等”的路由时，可以进行等价负载均衡。</p>
+<p>RIP包含以下三个要点：</p>
+<ul>
+<li>和谁交换信息：仅和相邻路由器交换信息；</li>
+<li>交换什么信息：自己的路由表；</li>
+<li>何时交换信息：周期性交换。</li>
+</ul>
+<p>RIP的基本工作过程：</p>
+<ul>
+<li>路由器刚开始工作时，只知道自己到直连网络的距离为1；</li>
+<li>每个路由器仅和相邻路由器周期性地交换并更新路由信息；</li>
+<li>若干次交换和更新后，每个路由器都知道到达本AS内各网络的最短距离和下一跳地址，称为收敛。</li>
+</ul>
+<p>RIP的路由条目的更新规则：</p>
+<ul>
+<li>发现新的网络，添加；</li>
+<li>到达目的网络，相同下一跳，最新消息，更新；</li>
+<li>到达目的网络，不同下一跳，新路由优势，更新；</li>
+<li>到达目的网络，不同下一跳，新路由劣势，不更新；</li>
+<li>到达目的网络，不同下一跳，等价负载均衡。</li>
+</ul>
+<p>RIP存在“坏消息传播得慢”的问题：</p>
+<p>“坏消息传播得慢”又称为路由环路或距离无穷计数问题，这是距离向量算法的一个固有问题。可以采取多种措施减少出现该问题的概率或减小该问题带来的危害。</p>
+<ul>
+<li>限制最大路径距离为15(16表示不可达)；</li>
+<li>当路由表发生变化时就立即发送更新报文(即“触发更新”)，而不仅是周期性发送；</li>
+<li>让路由器记录收到某特定路由信息的接口，而不让同一路由信息再通过此接口向反方向传送(即“水平分割”)。</li>
+</ul>
+<h3 id="开放最短路径优先ospf的基本工作原理">开放最短路径优先OSPF的基本工作原理</h3>
+<p>开放最短路径优先OSPF(Open Shortest Path First)：</p>
+<ul>
+<li>“开放”表明OSPF协议不是受某一家厂商控制，而是公开发表的；</li>
+<li>“最短路径优先”是因为使用了Dijkstra提出的最短路径算法SPF。</li>
+</ul>
+<p>OSPF是基于链路状态的，而不想RIP那样事基于距离向量的。</p>
+<p>OSPF采用SPF算法计算路由，从算法上保证了不会产生路由环路。</p>
+<p>OSPF不限制网络规模，更新效率高，收敛速度快。</p>
+<p>链路状态是指本路由器都和哪些路由器相邻，以及相应链路的“代价”。</p>
+<ul>
+<li>“代价”用来表示费用、距离、时延、带宽、等等。这些都由网络管理人员来决定。</li>
+</ul>
+<p>OSPF相邻路由器之间通过交换问候分组，建立和维护邻居关系。</p>
+<ul>
+<li>Hello分组封装在IP数据报中，发往组播地址224.0.0.5；</li>
+<li>发送周期为10秒；</li>
+<li>40秒未收到来自邻居路由器的Hello分组，则认为该邻居路由器不可达。</li>
+</ul>
+<p>使用OSPF的每个路由器都会产生链路状态通告LSA(Link State Advertisement)。LSA中包含以下内容：</p>
+<ul>
+<li>直连网络的链路状态信息；</li>
+<li>邻居路由器的链路状态信息。</li>
+</ul>
+<p>LSA被封装在链路状态更新分组LSU中，采用洪泛法发送。</p>
+<p>使用OSPF的每个路由器都有一个链路状态数据库LSDB，用于存储LSA。</p>
+<p>通过各路由器洪泛发送封装有自己LSA的LSU分组，各路由器的LSDB最终将达到一致。</p>
+<p>使用OSPF的各路由器给予LSDB进行最短路径优先SPF计算，构建出各自到达其他路由器的最短路径，即构建各自的路由表。</p>
+<p>OSPF有以下五种分组类型：</p>
+<ul>
+<li>问候分组：用来发现和维护邻居路由器的可达性；</li>
+<li>数据库描述分组：向邻居路由器给出自己的链路状态数据库中的所有链路状态项目的摘要信息；</li>
+<li>链路状态请求分组：向邻居路由器请求发送某些链路状态项目的详细信息。</li>
+<li>链路状态更新分组：路由器使用这种分组将其链路状态进行洪泛发送，即用洪泛法对全网路由器更新链路状态。</li>
+<li>链路状态确认分组：这是对链路状态更新分组的确认分组。</li>
+</ul>
+<p>OSPF的基本工作原理：</p>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210309194335.png"/></p>
+<p>OSPF在多点接入网络中路由器邻居关系的建立：</p>
+<ul>
+<li>选举制定路由器DR和备用的指定路由器BDR；</li>
+<li>所有的非DR/BDR只与DR/BDR建立邻居关系；</li>
+<li>非DR/BDR之间通过DR/BDR交换信息。</li>
+</ul>
+<p>为了使OSPF能够用于规模很大的网络，OSPF把一个自治系统再划分为若干个更小的范围，叫做区域Area。</p>
+<p>区域内路由器IR；区域边界路由器ABR；主干路由器BBR；自治系统边界路由器ASBR。</p>
+<ul>
+<li>划分区域的好处就是把利用洪泛法交换链路状态信息的范围局限于每个区域而不是整个自治系统，这就减少了整个网络上的通信量。</li>
+</ul>
+<h3 id="边界网关协议bgp的基本工作原理">边界网关协议BGP的基本工作原理</h3>
+<p>内部网关协议IGP</p>
+<ul>
+<li>设法使分组在一个自治系统内尽可能有效地从源网络传输到目的网络；</li>
+<li>无需考虑自治系统外部其他方面的策略</li>
+</ul>
+<p>外部网关协议EGP</p>
+<ul>
+<li>在不同自治系统内，度量路由的“代价”(距离，带宽，费用等)可能不同。因此，对于自治系统之间的路由选择，使用“代价”作为度量来寻找最佳路由是不行的。</li>
+<li>自治系统之间的路由选择必须考虑相关策略(政治、经济、安全等)</li>
+<li>BGP只能是力求寻找一条能够到达目的网络且比较好的路由(不能兜圈子)，而并非要寻找一条最佳路由。</li>
+</ul>
+<p>在配置BGP时，每个自治系统的管理员要选择至少一个路由器作为该自治系统的“BGP发言人”</p>
+<p>不同自治系统的BGP发言人要交换路由信息，首先必须建立TCP连接，端口号为179</p>
+<ul>
+<li>在此TCP连接上交换BGP报文以建立BGP会话</li>
+<li>利用BGP会话交换路由信息(例如，增加新的路由，或撤销过时的路由，以及报告出错的情况等)</li>
+<li>使用TCP连接交换路由信息的两个BGP发言人，彼此称为对方的邻站或对等站。</li>
+</ul>
+<p>BGP发言人除了运行BGP外，还必须运行自己所在自治系统所使用的内部网关协议IGP。</p>
+<p>BGP发言人交换网络可达性的信息(要到达某个网络所要经过的一系列自治系统)</p>
+<p>当BGP发言人互相交换了网络可达性的信息后，各BGP发言人就根据采用的策略从收到的路由信息中找出到达各自治系统的较好的路由。也就是构造出树形结构、不存在回路的自治系统连通图。</p>
+<p>BGP适用于多级结构的因特网。</p>
+<p>BGP-4有以下四种报文：</p>
+<ul>
+<li>OPEN报文：用来与相邻的另一个BGP发言人建立关系，使通信初始化；</li>
+<li>UPDATE报文：用来通告某一路由的信息，以及列出要撤销的多条路由；</li>
+<li>KEEPALIVE报文：用来周期性地证实邻站的连通性；</li>
+<li>NOTIFICATION报文：用来发送检测到的差错。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210309201557.png" style="zoom:60%"/></p>
+<h2 id="ipv4数据报的首部格式">IPv4数据报的首部格式</h2>
+<p><img src="https://raw.githubusercontent.com/wzx0599/picgo/master/20210309210247.png" style="zoom:80%"/></p>
+<ul>
+<li><p>版本：占4比特，表示IP协议的版本。通信双方使用的IP协议版本必须一致。</p></li>
+<li><p>首部长度：占4比特，表示IP数据报首部的长度。该字段的曲直以4字节为单位。最小十进制取值为5，表示IP数据报首部只有20字节固定部分；最大十进制取值为15，表示IP数据报首部包含20字节固定部分和最大40字节可变部分。</p></li>
+<li><p>可选字段：长度从1个字节到40个字节不等。用来支持排错、测量及安全等措施。可选字段增加了IP数据报的功能，但这同时也使得IP数据报的首部长度称为可变的。这就增加了每一个路由器处理IP数据报的开销。实际上可选字段很少被使用。</p></li>
+<li><p>填充字段：确保首部长度为4字节的整数倍，使用全0进行填充。</p></li>
+<li><p>区分服务字段：占8比特，用来获得更好的服务。该字段在旧标准中叫服务类型，但实际上一直没有被使用过，1998年，因特网工程任务组IETF把这个字段改名为区分服务。利用该字段的不同数值可以提供不同等级的服务质量。只有在使用区分服务时，该字段才起作用。一般情况下都不使用该字段。</p></li>
+<li><p>总长度：占16比特，表示IP数据报的总长度(首部+数据载荷)。最大取值为十进制的65535，以字节为单位。</p></li>
+<li><p>标识、标志、片偏移：共同用于IP数据报的分片。</p></li>
+<li><p>标识：占16比特，属于同一个数据报的各分片数据报应该具有相同的标识。IP软件维持一个计数器，每产生一个数据报，计数器值加1，并将此值赋给标识字段。</p></li>
+<li><p>标志：占3比特，DF位：1标识不允许分片，0表示允许分片；MF位：1表示后面还有分片，0表示这是最后一个分片；保留位，必须设置为0。</p></li>
+<li><p>片偏移：占13比特，指出分片数据报的数据载荷部分偏移其在原数据报的位置有多少个单位，片偏移以8个字节为单位。</p></li>
+<li><p>生存时间TTL：占8比特，最初以秒为单位，最大生存周期为255秒；路由器转发IP数据报时，将IP数据报首部中的该字段的值减去IP数据报在本路由器上所耗费的时间，若不为0就转发，否则就丢弃。现在以“跳数”为单位，路由器转发IP数据报时，将IP数据报首部中的该字段的值减1，若不为0就转发，否则就丢弃。</p></li>
+<li><p>协议：占8比特，指明IPv4数据报的数据部分是何种协议数据单元。常用的一些协议和相应的协议字段值如下</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">协议名称</th>
+<th style="text-align: center;">ICMP</th>
+<th style="text-align: center;">IGMP</th>
+<th style="text-align: center;">TCP</th>
+<th style="text-align: center;">UDP</th>
+<th style="text-align: center;">IPv6</th>
+<th style="text-align: center;">OSPF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">协议字段值</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">89</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>首部检验和：占16比特，用来检测首部在传输过程中是否出现差错。比CRC校验码简单，称为英特网校验和。IP数据报每经过一个路由器，路由器都要重新计算首部检验和，因为某些字段(生存时间、标志、片偏移等)的取值可能发生变化。由于IP层本身并不提供可靠传输的服务，并且计算首部校验和是一项耗时的操作，因此在IPv6中，路由器不再计算首部校验和，从而更快转发IP数据报。</p></li>
+<li><p>源IP地址和目的IP地址：各占32比特，用来填写发送该IP数据报的源主机IP地址和接收该IP数据报的目的主机IP地址。</p></li>
+</ul>
+<h2 id="网际控制报文协议icmp">网际控制报文协议ICMP</h2>
+<ul>
+<li>为了更有效地发送IP数据报和提高交付成功的机会，在网际层使用了网际控制报文协议ICMP(Internet Control Message Protocol)；</li>
+<li>主机或路由器使用ICMP来发送差错报告报文和询问报文；</li>
+<li>ICMP报文被封装在IP数据报中发送。</li>
+</ul>
+<p>ICMP差错报告报文共有以下五种：</p>
+<ul>
+<li>终点不可达：当路由器或主机不能交付数据报时，就向源点发送终点不可达报文。具体可再根据ICMP的代码字段细分为目的网络不可达、目的主机不可达、目的协议不可达、目的端口不可达、目的网络未知、目的主机未知等13种错误；</li>
+<li>源点抑制：当路由器或主机由于拥塞而丢弃数据报时，就向源点发送源点抑制报文，使源知道应当把数据报的发送速率放慢；</li>
+<li>时间超过：当路由器收到一个目的IP地址不是自己的IP数据报，会将其生存时间TTL字段的值减1，若不为0，则将该IP数据报转发出去，若为0，除丢弃该IP数据报外，还要向源点发送时间超过报文；另外，当终点在预先规定的时间内不能收到一个数据报的全部数据报片时，就把已收到的数据报片都丢弃，也会向源点发送时间超过报文；</li>
+<li>参数问题：当路由器或目的主机收到IP数据报后，根据其首部中的检验和字段发现首部在传输过程中出现了误码，就丢弃该数据报，并向源点发送参数问题报文；</li>
+<li>改变路由(重定向)：路由器把改变路由报文发送给主机，让主机知道下次应将数据报发送给另外的路由器(可通过更好的路由)。</li>
+</ul>
+<p>以下情况不应发送ICMP差错报告报文：</p>
+<ul>
+<li>对ICMP差错报告报文不再发送ICMP差错报告报文；</li>
+<li>对第一个分片的数据报片的所有后续数据报片都不发送ICMP差错报告报文；</li>
+<li>对具有多播地址的数据报都不发送ICMP差错报告报文；</li>
+<li>对具有特殊地址的数据报不发送ICMP差错报告报文。</li>
+</ul>
+<p>常用的ICMP询问报文有以下两种：</p>
+<ul>
+<li>回送请求和回答：ICMP回送请求报文是由主机或路由器向一个特定的目的主机发出的询问。收到此报文的主机必须给源主机或路由器发送ICMP回送回答报文。这种询问报文用来测试目的站是否可达及了解其有关状态；</li>
+<li>时间戳请求和回答：ICMP时间戳请求报文是请某个主机或路由器回答当前的时间和日期。在ICMP时间戳回答报文中有一个32位的字段，其中写入的整数代表从1900年1月1日起到当前时刻一共有多少秒。这种询问报文用来进行时钟同步和测量时间。</li>
+</ul>
+<p>ICMP应用举例：</p>
+<ul>
+<li>分组网间探测PING(Package InterNet Groper)：
+<ul>
+<li>用来测试主机或路由器之间的连通性；</li>
+<li>应用层直接使用网际层的ICMP(没有通过运输层的TCP或UDP)；</li>
+<li>使用ICMP回送请求和回答报文。</li>
+</ul></li>
+<li>跟踪路由(traceroute)：
+<ul>
+<li>用来测试IP数据报从源主机到目的主机要经过哪些路由器</li>
+<li>Windows版本：
+<ul>
+<li>tracert命令；</li>
+<li>应用层直接使用网际层ICMP；</li>
+<li>使用了ICMP回送请求和回答报文基于差错报告报文。</li>
+</ul></li>
+<li>Unix版本：
+<ul>
+<li>traceroute命令；</li>
+<li>在运输层使用UDP协议；</li>
+<li>仅使用ICMP差错报告报文。</li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="虚拟专用网vpn">虚拟专用网VPN</h2>
+<p>利用公用的因特网作为本机构各专用网络之间的通信载体，这样的专用网又称为虚拟专用网。</p>
+<p>专用(私有)地址：</p>
+<p>10.0.0.0-10.255.255.255(10/8地址块)；</p>
+<p>172.16.0.0-172.31.255.255(172.16/12地址块)；</p>
+<p>192.168.0.0-192.168.255.255(192.168/16地址块)。</p>
+<h2 id="网络地址转换nat">网络地址转换NAT</h2>
+<p>虽然因特网采用了无分类编址方式来缓解IPv4地址空间耗尽的速度，但由于因特网用户数目的激增，特别是大量小型办公室网络和家庭网络接入因特网的需求不断增加，IPv4地址空间即将面临耗尽的危险仍然没有被解除。</p>
+<p>1994年提出了一种网络地址转换NAT的方法再次缓解了IPv4地址空间即将耗尽的问题。</p>
+<p>NAT能使大量使用内部专用地址的专用网络用户共享少量外部全球地址来访问因特网上的主机和资源。</p>
+<p>由于绝大多数的网络应用都是使用运输层协议TCP或UDP来传送数据，因此可以利用运输层的端口号和IP地址一起进行转换。这样，用一个全球IP地址就可以使用多个拥有本地地址的主机同时和因特网上的主机进行通信。这种将端口号和IP地址一起进行转换的技术叫作<strong>网络地址与端口号转换NAPT</strong>(Network Address and Port Translation)。</p>
+<p>使用NAPT协议的主机不能直接充当因特网服务器。对于一些P2P网络应用，需要外网主机主动与内网主机进行通信，在通过NAT时会遇到问题，需要网络应用自己使用一些特殊的NAT穿越技术来解决问题。另外，由于NAT对外网屏蔽了内网主机的网络地址，能为内网的主机提供一定的安全保护。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" rel="prev" title="计算机网络(数据链路层)">
+      <i class="fa fa-chevron-left"></i> 计算机网络(数据链路层)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E4%BC%A0%E8%BE%93%E5%B1%82/" rel="next" title="计算机网络(传输层)">
+      计算机网络(传输层) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">网络层概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.</span> <span class="nav-text">网络层提供的两种服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ipv4%E5%9C%B0%E5%9D%80%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.</span> <span class="nav-text">IPv4地址描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80%E7%9A%84ipv4%E5%9C%B0%E5%9D%80"><span class="nav-number">4.1.</span> <span class="nav-text">分类编址的IPv4地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%92%E5%88%86%E5%AD%90%E7%BD%91%E7%9A%84ipv4%E5%9C%B0%E5%9D%80"><span class="nav-number">4.2.</span> <span class="nav-text">划分子网的IPv4地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80%E7%9A%84ipv4%E5%9C%B0%E5%9D%80"><span class="nav-number">4.3.</span> <span class="nav-text">无分类编址的IPv4地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ipv4%E5%9C%B0%E5%9D%80%E7%9A%84%E5%BA%94%E7%94%A8%E8%A7%84%E5%88%92"><span class="nav-number">5.</span> <span class="nav-text">IPv4地址的应用规划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ip%E6%95%B0%E6%8D%AE%E6%8A%A5%E7%9A%84%E5%8F%91%E9%80%81%E5%92%8C%E8%BD%AC%E5%8F%91%E8%BF%87%E7%A8%8B"><span class="nav-number">6.</span> <span class="nav-text">IP数据报的发送和转发过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%85%B6%E5%8F%AF%E8%83%BD%E4%BA%A7%E7%94%9F%E7%9A%84%E8%B7%AF%E7%94%B1%E7%8E%AF%E8%B7%AF%E9%97%AE%E9%A2%98"><span class="nav-number">7.</span> <span class="nav-text">静态路由配置及其可能产生的路由环路问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E5%8D%8F%E8%AE%AE"><span class="nav-number">8.</span> <span class="nav-text">路由选择协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E4%BF%A1%E6%81%AF%E5%8D%8F%E8%AE%AErip%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">8.1.</span> <span class="nav-text">路由信息协议RIP的基本工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E6%94%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E4%BC%98%E5%85%88ospf%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">8.2.</span> <span class="nav-text">开放最短路径优先OSPF的基本工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AEbgp%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">8.3.</span> <span class="nav-text">边界网关协议BGP的基本工作原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ipv4%E6%95%B0%E6%8D%AE%E6%8A%A5%E7%9A%84%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">9.</span> <span class="nav-text">IPv4数据报的首部格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E9%99%85%E6%8E%A7%E5%88%B6%E6%8A%A5%E6%96%87%E5%8D%8F%E8%AE%AEicmp"><span class="nav-number">10.</span> <span class="nav-text">网际控制报文协议ICMP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E4%B8%93%E7%94%A8%E7%BD%91vpn"><span class="nav-number">11.</span> <span class="nav-text">虚拟专用网VPN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2nat"><span class="nav-number">12.</span> <span class="nav-text">网络地址转换NAT</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">wzx0599</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wzx0599" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wzx0599" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wzx0599</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='120,120,120' opacity='0.5' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
