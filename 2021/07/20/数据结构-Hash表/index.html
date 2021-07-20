@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-Hash表">
+<meta property="og:url" content="http://example.com/2021/07/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-Hash%E8%A1%A8/index.html">
+<meta property="og:site_name" content="wzx0599">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/wzx0599/picgo/raw/master/20210720192551.png">
+<meta property="article:published_time" content="2021-07-20T08:01:58.000Z">
+<meta property="article:modified_time" content="2021-07-20T11:46:26.612Z">
+<meta property="article:author" content="wzx0599">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/wzx0599/picgo/raw/master/20210720192551.png">
+
+<link rel="canonical" href="http://example.com/2021/07/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-Hash%E8%A1%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数据结构-Hash表 | wzx0599</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">wzx0599</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-Hash%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wzx0599">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wzx0599">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据结构-Hash表
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-20 16:01:58 / 修改时间：19:46:26" itemprop="dateCreated datePublished" datetime="2021-07-20T16:01:58+08:00">2021-07-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="哈希函数">哈希函数</h2>
+<p><span class="math display">\[
+index=hashCode(key)
+\]</span></p>
+<p>哈希表是数据的一种存储结构。数组可以通过索引直接定位数据，但是数据的插入和删除较为麻烦；链表插入和删除数据方便，但是查找数据时需要从表头开始遍历。为了解决上述的问题，结合二者的优点，人们发明了能够在<span class="math inline">\(O(1)\)</span>时间内查找元素的哈希表。哈希表通过给定的key，结合哈希函数来计算数据存放的位置。如上面的公式所示，<span class="math inline">\(hashCode(\cdot)\)</span>表示哈希函数。</p>
+<h2 id="哈希函数的构造方法">哈希函数的构造方法</h2>
+<p>原则上，哈希函数的构造方法需要满足以下两个原则：1.计算简单；2.散列地址分布均匀。</p>
+<h3 id="直接定址法">直接定址法</h3>
+<p>不常用。该方法直接将<span class="math inline">\(key\)</span>或者<span class="math inline">\(key\)</span>在某个线性函数的🈯值作为散列地址。优点是简单，均匀，不会产生冲突；缺点是需要事先直到<span class="math inline">\(key\)</span>的分布情况，适合查找表比较小且连续的情况。</p>
+<p><span class="math display">\[
+hashCode(key)=key \quad or \quad hashCode(key)=a\times key + b
+\]</span></p>
+<h3 id="数字分析法">数字分析法</h3>
+<p>数字分析法用于处理关键字是位数比较多的数字，通过抽取关键字的一部分进行操作，计算哈希存储位置的方法。此种方法通常用于数字位数较长的情况，必须数字存在一定规律，其必须知道数字的分布情况。</p>
+<h3 id="平方取中法">平方取中法</h3>
+<p>如果关键字的每一位都有某些数字重复出现频率很高的现象，可以先求关键字的平方值，通过平方扩大差异，而后取中间数位作为最终存储地址。这种方法适合事先不知道数据并且数据长度较小的情况。</p>
+<p><span class="math display">\[
+key=1234 \quad key^2=1522756 \quad \rightarrow \quad hashCode(key)=227
+\]</span></p>
+<h3 id="折叠法">折叠法</h3>
+<p>将关键字分成位数相同的几部分(最后一部分位数可以不同)，然后求这几部分的叠加和(舍去进位)，并按照散列表的表长，取后几位作为哈希地址。该方法适用于关键字位数很多，而且关键字每一位上数字分布大致均匀。</p>
+<p><span class="math display">\[
+key=123~456~789 \quad\rightarrow\quad 123+456+789=1368 \quad\rightarrow\quad hashCode(key)=368
+\]</span></p>
+<h3 id="除留余数法">除留余数法</h3>
+<p>此方法为最常用的构造哈希函数方法。对于哈希表长为<span class="math inline">\(m\)</span>的哈希函数公式为：</p>
+<p><span class="math display">\[
+index=hashCode(key)=key ~mod~ p \quad p \leq m
+\]</span></p>
+<p>此方法不仅可以对<span class="math inline">\(key\)</span>直接取模，也可以在折叠、平方取中之后再取模。所以，本方法的关键在于选择合适的<span class="math inline">\(p\)</span>，若是<span class="math inline">\(p\)</span>选择的不好，就可能产生哈希冲突；根据前人经验，若散列表的表长为<span class="math inline">\(m\)</span>，通常<span class="math inline">\(p\)</span>为小于或等于表长(最好接近<span class="math inline">\(m\)</span>)的最小质数或不包含小于20质因子的合数。</p>
+<h3 id="随机数法">随机数法</h3>
+<p>选择一个随机数，取关键字的随机函数值作为他的哈希地址。当关键字的长度不等时，采用这个方法构造哈希函数较为合适。当遇到特殊字符的关键字时，需要将其转换为某种数字。</p>
+<p><span class="math display">\[
+hashCode(key)=random(key)
+\]</span></p>
+<h2 id="哈希冲突">哈希冲突</h2>
+<p>哈希冲突是指通过哈希函数计算不同的<span class="math inline">\(key\)</span>后，得到的散列地址相同。哈希冲突的解决方案主要有四种：开放地址法；再哈希；链地址法；公共溢出区法。</p>
+<h3 id="开放地址法">开放地址法</h3>
+<p>一旦发生了冲突就去寻找下一个空的哈希地址，只要哈希表足够大，空的散列地址总能找到，并将记录存入。</p>
+<p><span class="math display">\[
+H_i=(hashCode(key) + d_i) ~mod~ m
+\]</span></p>
+<p>其中，<span class="math inline">\(hashCode()\)</span>为哈希函数；<span class="math inline">\(m\)</span>为哈希表表长；<span class="math inline">\(d_i\)</span>为增量序列。<span class="math inline">\(d_i\)</span>有三种取法：</p>
+<ul>
+<li><span class="math inline">\(d_i=1,2,3,\cdots,m-1\)</span>，为线性探测再哈希</li>
+<li><span class="math inline">\(d_i=1^2,-1^2,2^2,-2^2,\cdots,k^2,-k^2\quad k \leq \frac{m}{2}\)</span>，为二次探测再哈希</li>
+<li><span class="math inline">\(d_i=\)</span>伪随机序列，为伪随机数探测再哈希</li>
+</ul>
+<h3 id="再哈希法">再哈希法</h3>
+<p><span class="math display">\[
+H_i=reHashCode_i(key)\quad i=1,2,3,\cdots,k
+\]</span></p>
+<p>其中，<span class="math inline">\(reHashCode()\)</span>均为不同的哈希函数。当发生冲突时，使用不同的哈希函数计算地址，直到不冲突位置。这种方法不容易产生堆积，但是耗费时间。</p>
+<h3 id="链地址法">链地址法</h3>
+<p>将所有<span class="math inline">\(hashCode(key)\)</span>相同的记录存储在一个单链表中，称为同义词子表，散列表中存储同义词子表的头指针。链地址法解决了哈希冲突，提供了永远都能够找到地址的保证。但是，也带来了查找时需要遍历单链表的性能损耗。</p>
+<p><img src="https://gitee.com/wzx0599/picgo/raw/master/20210720192551.png"/></p>
+<h3 id="公共溢出区法">公共溢出区法</h3>
+<p>设立两个表：基础表和溢出表。计算所有<span class="math inline">\(key\)</span>通过哈希函数得到的地址，然后将未发生冲突的<span class="math inline">\(key\)</span>放入相应的基础表中，一旦发生冲突，将其依次放入溢出表中。</p>
+<h2 id="哈希表的查找效率">哈希表的查找效率</h2>
+<p>哈希表的查找效率取决于下面几个因素：1.选用的哈希函数；2.选用的冲突处理函数；3.哈希表的饱和程度(用负载因子表示：<span class="math inline">\(\alpha=\frac{n}{m}\)</span>，<span class="math inline">\(n\)</span>表示实际装载数据的长度；<span class="math inline">\(m\)</span>为哈希表容量或长度)</p>
+<h3 id="负载因子">负载因子</h3>
+<p>负载因子越大，哈希表的平均查找时间越长；但是负载因子偏小，哈希表的空间利用率不高。通常情况下，认为<span class="math inline">\(\alpha=0.75\)</span>是时间空间综合利用率最高的情况。</p>
+<h2 id="补充哈希扩容参考redis的rehash机制">补充：哈希扩容(参考Redis的rehash机制)</h2>
+<p>哈希扩容是指将哈希表的长度增加，通常是原长度的两倍。使用链地址法封装哈希表时, 负载因子(loaderFactor)会大于1, 理论上这种封装的哈希表时可以无限插入数据的。但是，随着数据量的增多,哈希表中的每个元素会变得越来越长, 这是效率会大大降低。因此, 需要通过扩容来提高效率。常见的情况是在负载因子(loaderFactor) &gt; 0.75是进行扩容。</p>
+<p>扩容的步骤：</p>
+<ul>
+<li>将哈希表的存储空间增加为原来的两倍</li>
+<li>将所有数据项都进行修改(需要重新调用哈希函数,来获取新的位置)</li>
+</ul>
+<p>Redis中rehash是以bucket(桶)为基本单位进行渐进式的数据迁移的，每步完成一个bucket的迁移，直至所有数据迁移完毕。一个bucket对应哈希表数组中的一条entry链表。新版本的dictRehash()还加入了一个最大访问空桶数(empty_visits)的限制来进一步减小可能引起阻塞的时间。</p>
+<h2 id="参考链接">参考链接</h2>
+<ul>
+<li>https://blog.csdn.net/u011109881/article/details/80379505</li>
+<li>https://blog.csdn.net/z_ryan/article/details/78760944</li>
+<li>https://blog.csdn.net/cqk0100/article/details/80400811</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/19/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" rel="prev" title="操作系统-线程同步">
+      <i class="fa fa-chevron-left"></i> 操作系统-线程同步
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">哈希函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">哈希函数的构造方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E5%AE%9A%E5%9D%80%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">直接定址法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E5%88%86%E6%9E%90%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">数字分析法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B3%E6%96%B9%E5%8F%96%E4%B8%AD%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">平方取中法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%98%E5%8F%A0%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">折叠法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%A4%E7%95%99%E4%BD%99%E6%95%B0%E6%B3%95"><span class="nav-number">2.5.</span> <span class="nav-text">除留余数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%95%B0%E6%B3%95"><span class="nav-number">2.6.</span> <span class="nav-text">随机数法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81"><span class="nav-number">3.</span> <span class="nav-text">哈希冲突</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E6%94%BE%E5%9C%B0%E5%9D%80%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">开放地址法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%8D%E5%93%88%E5%B8%8C%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">再哈希法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%BE%E5%9C%B0%E5%9D%80%E6%B3%95"><span class="nav-number">3.3.</span> <span class="nav-text">链地址法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E5%85%B1%E6%BA%A2%E5%87%BA%E5%8C%BA%E6%B3%95"><span class="nav-number">3.4.</span> <span class="nav-text">公共溢出区法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8%E7%9A%84%E6%9F%A5%E6%89%BE%E6%95%88%E7%8E%87"><span class="nav-number">4.</span> <span class="nav-text">哈希表的查找效率</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%9F%E8%BD%BD%E5%9B%A0%E5%AD%90"><span class="nav-number">4.1.</span> <span class="nav-text">负载因子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E5%93%88%E5%B8%8C%E6%89%A9%E5%AE%B9%E5%8F%82%E8%80%83redis%E7%9A%84rehash%E6%9C%BA%E5%88%B6"><span class="nav-number">5.</span> <span class="nav-text">补充：哈希扩容(参考Redis的rehash机制)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">wzx0599</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wzx0599" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wzx0599" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wzx0599</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='120,120,120' opacity='0.5' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
